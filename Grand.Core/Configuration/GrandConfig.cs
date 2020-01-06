@@ -174,5 +174,10 @@ namespace Grand.Core.Configuration
         /// Gets or sets a value indicating whether ignore IgnoreUsePoweredByMiddleware
         /// </summary>
         public bool IgnoreUsePoweredByMiddleware { get; set; }
+        
+        /// <summary>
+        /// Connection string for Integration provider
+        /// </summary>
+        public string IntegrationConnectionString { get; set; }
     }
 }

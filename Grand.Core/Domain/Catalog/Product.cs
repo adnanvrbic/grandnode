@@ -32,6 +32,25 @@ namespace Grand.Core.Domain.Catalog
             Locales = new List<LocalizedProperty>();
             Stores = new List<string>();
         }
+        
+        public Product(Grand.Core.Domain.IntegrationData.Product product)
+        {
+            CustomerRoles = new List<string>();
+            Locales = new List<LocalizedProperty>();
+            Stores = new List<string>() {"5e0a74aa9fbb1537a9a2d286"};
+            Name = product.Name;
+            ShortDescription = product.Description;
+            Sku = product.Id;
+            ManufacturerPartNumber = product.Barcode;
+            Gtin = product.Barcode;
+            Price = (decimal)product.VPC;
+            Published = true;
+            VisibleIndividually = true;
+            ProductType = ProductType.SimpleProduct;
+            DisableWishlistButton = true;
+            StockQuantity = (int)product.Stock;
+            OrderMaximumQuantity = 1000;
+        }
 
         /// <summary>
         /// Gets or sets the product type identifier

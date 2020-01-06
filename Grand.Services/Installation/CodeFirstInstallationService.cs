@@ -10363,6 +10363,30 @@ namespace Grand.Services.Installation
                     StopOnError = false,
                     TimeInterval = 60
                 },
+                new ScheduleTask
+                {
+                    ScheduleTaskName = "Sync Erp product data",
+                    Type = "Grand.Services.Tasks.IntegrationTasks.SyncProductTask, Grand.Services",
+                    Enabled = false,
+                    StopOnError = false,
+                    TimeInterval = 60
+                },
+                new ScheduleTask
+                {
+                    ScheduleTaskName = "Sync Erp pricelist data",
+                    Type = "Grand.Services.Tasks.IntegrationTasks.SyncPriceListTask, Grand.Services",
+                    Enabled = false,
+                    StopOnError = false,
+                    TimeInterval = 60
+                },
+                new ScheduleTask
+                {
+                    ScheduleTaskName = "Sync Erp stock data",
+                    Type = "Grand.Services.Tasks.IntegrationTasks.SyncStockTask, Grand.Services",
+                    Enabled = false,
+                    StopOnError = false,
+                    TimeInterval = 15
+                },
             };
             await _scheduleTaskRepository.InsertAsync(tasks);
         }

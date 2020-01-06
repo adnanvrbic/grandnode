@@ -55,6 +55,10 @@ using MongoDB.Driver;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
+using Grand.Core.Data.IntegrationData;
+using Grand.Services.Tasks.IntegrationTasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Grand.Framework.Infrastructure
 {
@@ -99,6 +103,13 @@ namespace Grand.Framework.Infrastructure
 
             //MongoDbRepository
             builder.RegisterGeneric(typeof(MongoDBRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            
+            //Integration data layer
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder<IntegrationDataContext>().UseSqlServer(config.IntegrationConnectionString);
+            builder.RegisterType<IntegrationDataContext>().WithParameter("options", dbContextOptionsBuilder.Options).InstancePerLifetimeScope();
+
+            //IntegrationDbRepository
+            builder.RegisterGeneric(typeof(SqlDBRepository<>)).As(typeof(ISqlRepository<>)).InstancePerLifetimeScope();
 
             //plugins
             builder.RegisterType<PluginFinder>().As<IPluginFinder>().InstancePerLifetimeScope();
@@ -337,7 +348,12 @@ namespace Grand.Framework.Infrastructure
             builder.RegisterType<DeleteGuestsScheduleTask>().As<IScheduleTask>().InstancePerLifetimeScope();
             builder.RegisterType<UpdateExchangeRateScheduleTask>().As<IScheduleTask>().InstancePerLifetimeScope();
             builder.RegisterType<EndAuctionsTask>().As<IScheduleTask>().InstancePerLifetimeScope();
-
+            
+            //Register integration task
+            builder.RegisterType<SyncProductTask>().As<IScheduleTask>().InstancePerLifetimeScope();
+            builder.RegisterType<SyncCategoryTask>().As<IScheduleTask>().InstancePerLifetimeScope();
+            builder.RegisterType<SyncStockTask>().As<IScheduleTask>().InstancePerLifetimeScope();
+            builder.RegisterType<SyncPriceListTask>().As<IScheduleTask>().InstancePerLifetimeScope();
         }
 
         /// <summary>
