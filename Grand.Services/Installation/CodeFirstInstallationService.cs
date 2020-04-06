@@ -10373,6 +10373,14 @@ namespace Grand.Services.Installation
                 },
                 new ScheduleTask
                 {
+                    ScheduleTaskName = "Sync Erp product categories data",
+                    Type = "Grand.Services.Tasks.IntegrationTasks.SyncCategoryTask, Grand.Services",
+                    Enabled = false,
+                    StopOnError = false,
+                    TimeInterval = 60
+                },
+                new ScheduleTask
+                {
                     ScheduleTaskName = "Sync Erp pricelist data",
                     Type = "Grand.Services.Tasks.IntegrationTasks.SyncPriceListTask, Grand.Services",
                     Enabled = false,

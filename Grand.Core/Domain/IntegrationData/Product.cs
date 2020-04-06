@@ -18,9 +18,9 @@ namespace Grand.Core.Domain.IntegrationData
         [Column("VPC")]
         public double VPC { get; set; }
         [Column("MPC")]
-        public double MPC { get; set; }
+        public decimal MPC { get; set; }
         [Column("Zaliha")]
-        public double Stock { get; set; }
+        public decimal Stock { get; set; }
         public static IEnumerable<Grand.Core.Domain.Catalog.Product> ConvertToMongoEntity(IEnumerable<Product> products)
         {
             return products.Select(item => new Grand.Core.Domain.Catalog.Product(item));

@@ -73,7 +73,7 @@ namespace Grand.Services.Tasks.IntegrationTasks
                         Name = e.Id,
                         SeName = e.Id,
                         Published = true,
-                        ShowOnHomePage = true
+                        ShowOnHomePage = false
                     }).ToList();
                 
                 await _categoryMongoRepository.InsertAsync(insertData);
