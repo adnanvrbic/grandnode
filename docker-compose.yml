@@ -1,8 +1,57 @@
 version: '3.4'
 
+volumes:
+  portainer_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  ecommerce_data:
+    driver: local
+
 services:
-  grand.web:
+  mongodb:
+    image: mongo:4.0.4
+    restart: unless-stopped
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: aA1111111#
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - local
+
+  ecommerce:
     image: ${DOCKER_REGISTRY-}grandweb
+    restart: always
+    container_name: ecommerce
     build:
       context: .
       dockerfile: Grand.Web/Dockerfile
+    volumes:
+      - ecommerce_data:/data/web
+    ports:
+      - 8080:8080
+    networks:
+      - local
+    depends_on:
+      - mongodb
+      
+  portainer:
+    image: portainer/portainer:latest
+    restart: always
+    container_name: "portainer-app"
+    networks:
+      - local
+    command: --host=unix:///var/run/docker.sock
+    ports:
+      - "9100:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+networks:
+  local:
+    driver: bridge
